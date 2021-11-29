@@ -1,0 +1,26 @@
+# Default values for http-lb-ing-chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+deployments:
+  web1:
+    labels: 
+      app: "web-1"
+    image: "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0"
+  web2:
+    labels: 
+      app: "web-2"
+    image: "us-docker.pkg.dev/google-samples/containers/gke/hello-app:2.0"
+  imagePullPolicy: IfNotPresent
+  containerPort: 8080
+
+services:
+  ports:
+    web1: 8080
+    web2: 8080
+
+ingress:
+  pathType: ImplementationSpecific
+  paths:
+    web1: /*
+    web2: /v2/*

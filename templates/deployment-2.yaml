@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-web-2-deploy
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+    {{- range $key, $val := .Values.deployments.web2.labels }}
+      {{ $key }}: {{ $val }}
+    {{- end }}
+  template:
+    metadata:
+      labels:
+      {{- range $key, $val := .Values.deployments.web2.labels }}
+        {{ $key }}: {{ $val }}
+      {{- end }}
+    spec:
+      containers:
+      - image: {{ .Values.deployments.web2.image }}
+        imagePullPolicy: {{ .Values.deployments.imagePullPolicy }}
+        name: {{ .Release.Name }}-deploy-web-2-container
+        ports:
+        - containerPort: {{ .Values.deployments.containerPort }}
+          protocol: TCP
